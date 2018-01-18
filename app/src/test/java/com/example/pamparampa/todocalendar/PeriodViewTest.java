@@ -15,11 +15,13 @@ public class PeriodViewTest {
     @Test
     public void changeDayOfWeek() {
         Calendar date = Calendar.getInstance();
-        date.set(2018, 0, 9);
+        //date.setFirstDayOfWeek(Calendar.MONDAY);
+        date.set(2018, 1, 1);
 
         System.out.println(date.getFirstDayOfWeek());
 
-        date.set(Calendar.DAY_OF_WEEK, 2);
+        date.set(Calendar.WEEK_OF_MONTH, date.get(Calendar.WEEK_OF_MONTH));
+        date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         System.out.println(date.get(Calendar.YEAR) + "-" + date.get(Calendar.MONTH) + "-" + date.get(Calendar.DAY_OF_MONTH));
     }
 }

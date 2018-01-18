@@ -32,19 +32,48 @@ public abstract class PeriodView extends LinearLayout{
     protected int rectWidth;
     protected int rectHeight;
     protected int boardLeftPad;
-    protected int boardTopPad;
     protected int numberOfCols;
     protected int numberOfRows;
-    private final BoardScrollView boardScrollView;
+    protected BoardScrollView boardScrollView;
+    protected Paint labelTextPaint;
+    protected TopLabel topLabel;
+    protected int textSize;
+    protected Calendar calendar;
+    protected Paint rectPaint;  //TODO posortowac pola
+    protected Paint labelLinePaint;
 
-    public PeriodView(Context context, AttributeSet attrs)
-    {   //TODO czy to dziala i czy mozna uproscic
+    public PeriodView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         TypedArray tArray = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.PeriodView,
                 0, 0);
+        calendar = Calendar.getInstance();
+
+        achieveDate(tArray);
+
+        setOrientation(VERTICAL);
+
+        composeView(context);
+
+        initPaints();
+    }
+
+    private void initPaints() {
+        labelTextPaint = new Paint();
+        labelTextPaint.setAntiAlias(true);
+        labelTextPaint.setTextSize(20);  //TODO odhardcodowac
+
+        labelLinePaint = new Paint();
+        labelLinePaint.setStrokeWidth(5);   // TODO odharcodowac?
+
+        rectPaint = new Paint();
+        rectPaint.setStyle(Paint.Style.STROKE);
+    }
+
+    private void achieveDate(TypedArray tArray) {
+        //TODO czy to dziala i czy mozna uproscic
         try {
             DateFormat format = SimpleDateFormat.getDateInstance();
             String stringDate = tArray.getString(R.styleable.PeriodView_date);
@@ -60,19 +89,13 @@ public abstract class PeriodView extends LinearLayout{
         finally {
             tArray.recycle();
         }
+    }
 
-        setOrientation(VERTICAL);
-
-        TopLabel topLabel = new TopLabel(context);
+    protected void composeView(Context context) {
+        topLabel = new TopLabel(context);
         boardScrollView = new BoardScrollView(context, null);
 
-        topLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.9f
-        ));
         addView(topLabel);
-
-        boardScrollView.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.1f));
         addView(boardScrollView);
     }
 
@@ -82,39 +105,48 @@ public abstract class PeriodView extends LinearLayout{
         height = h;
 
         boardLeftPad = w / 8;
-        boardTopPad = boardLeftPad;
-
         rectWidth = (width - boardLeftPad) / numberOfCols;
 
-        boardScrollView.setSize(width, width * 100 / 33);
+        textSize = height / 40;
+        labelTextPaint.setTextSize(textSize);    // TODO zabezpieczyc przed zbyt malym
     }
 
     protected Date getFirstDayOfWeek(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.setTime(date);
-        calendar.set(Calendar.DAY_OF_WEEK, 1);
+        calendar.set(Calendar.WEEK_OF_MONTH, calendar.get(Calendar.WEEK_OF_MONTH));
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
         return calendar.getTime();
     }
 
     protected abstract void drawRect(Canvas canvas, int col, int row);
 
+    protected abstract void drawTopLabelElement(Canvas canvas, int i);
+
     protected class TopLabel extends View {
+
+        private int width;
+        private int height;
 
         public TopLabel(Context context) {
             super(context);
         }
 
         @Override
+        protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+            width = w;
+            height = h;
+        }
+
+        @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
 
-            Paint paint = new Paint();
-            paint.setTextSize(20);  //TODO odhardcodowac
+            for (int i = 0; i < 7; i++) {
+                drawTopLabelElement(canvas, i);
+            }
 
-            canvas.drawText("P", 0, 1, boardLeftPad, 10, paint);
-            canvas.drawText("10", 0, 2, boardLeftPad, 50, paint);
+            canvas.drawLine(0, height, width, height, labelLinePaint);
         }
     }
 
@@ -136,20 +168,15 @@ public abstract class PeriodView extends LinearLayout{
 
         }
 
-        public void setSize(int w, int h) {
+        public void resize(int w, int h) {
             boardView.setLayoutParams(new LinearLayout.LayoutParams(w, h));
             boardView.postInvalidate();
-        }
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-
         }
 
         protected class BoardView extends View {
 
             public BoardView(Context context, AttributeSet attrs) {
-                super(context);
+                super(context, attrs);
             }
 
             @Override

@@ -64,7 +64,7 @@ public class WeekView extends PeriodView {
         String[] weekDaysL = getResources().getStringArray(R.array.weekDaysL);
 
         //TODO odharcodowac te metode
-        float x = (boardLeftPad * 1.25f) + (dayOfWeek * (width / numberOfCols + 1));
+        float x = (boardLeftPad * 1.25f) + (dayOfWeek * (width / (numberOfCols + 1)));
         canvas.drawText(
                 weekDaysL[dayOfWeek],
                 x,

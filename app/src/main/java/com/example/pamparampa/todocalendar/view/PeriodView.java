@@ -28,26 +28,26 @@ public abstract class PeriodView extends LinearLayout{
     protected Date firstVisibleDateTime;
     protected Calendar calendar;
 
-    protected int width;
-    protected int height;
-    protected int boardLeftPad;
     protected int numberOfCols;
     protected int numberOfRows;
-    protected int textSize;
 
     protected TopLabel topLabel;
-    protected BoardScrollView boardScrollView;
+    private BoardScrollView boardScrollView;
 
     protected Paint labelTextPaint;
     protected Paint labelLinePaint;
 
-    protected CalendarRect[][] rects;
+    private CalendarRect[][] rects;
     protected int rectTimeUnit;
+    protected CalendarSizesManager sizesManager;
+
+    protected Context context;
 
     // TODO posortowac
     public PeriodView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        this.context = context;
         TypedArray tArray = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.PeriodView,
@@ -57,7 +57,7 @@ public abstract class PeriodView extends LinearLayout{
         achieveDate(tArray);
         setOrientation(VERTICAL);
         initFields();
-        composeView(context);
+        composeView();
         initPaints();
     }
 
@@ -80,17 +80,35 @@ public abstract class PeriodView extends LinearLayout{
         }
     }
 
-    protected void composeView(Context context) {
-        topLabel = new TopLabel(context);
+    private void initFields() {
+        initNumberOfColsAndRows();
+        initFirstVisableDateTime();
+        initRectTimeUnit();
+        initSizeManager();
+        initTopLabel();
+    }
+
+    private void composeView() {
 
         initBoard();
         boardScrollView = new BoardScrollView(context, null);
+
+        topLabel.setLayoutParams(new LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                sizesManager.getTopLabelWeight()
+        ));
+
+        boardScrollView.setLayoutParams(new LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                sizesManager.getBoardWeight()));
 
         addView(topLabel);
         addView(boardScrollView);
     }
 
-    protected void initBoard() {
+    private void initBoard() {
         rects = new CalendarRect[numberOfCols][numberOfRows];
         calendar.setTime(firstVisibleDateTime);
         calendar.add(rectTimeUnit, 1);
@@ -104,19 +122,29 @@ public abstract class PeriodView extends LinearLayout{
     private void initPaints() {
         labelTextPaint = new Paint();
         labelTextPaint.setAntiAlias(true);
-        labelTextPaint.setTextSize(20);  //TODO odhardcodowac
 
         labelLinePaint = new Paint();
-        labelLinePaint.setStrokeWidth(5);   // TODO odharcodowac?
+        labelLinePaint.setStrokeWidth(sizesManager.getBoldLineWidth());
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        width = w;
-        height = h;
+        sizesManager.setWidth(w);
+        sizesManager.setHeight(h);
 
-        textSize = height / 40;
-        labelTextPaint.setTextSize(textSize);    // TODO zabezpieczyc przed zbyt malym
+        labelTextPaint.setTextSize(sizesManager.getTextSize());
+
+        coordinateRects();
+        boardScrollView.resize(w, sizesManager.getBoardHeight());
+    }
+
+    private void coordinateRects() {
+        for (int col = 0; col < numberOfCols; col++) {
+            for (int j = 0; j < numberOfRows; j++) {
+                rects[col][j].setCoordinates(
+                        sizesManager.getRectHeight(), sizesManager.getRectWidth());
+            }
+        }
     }
 
     protected Date getFirstDayOfWeek(Date date) {
@@ -130,11 +158,13 @@ public abstract class PeriodView extends LinearLayout{
         return calendar.getTime();
     }
 
-    protected abstract void drawTopLabelElement(Canvas canvas, int i);
+    protected abstract void initNumberOfColsAndRows();
+    protected abstract void initFirstVisableDateTime();
+    protected abstract void initRectTimeUnit();
+    protected abstract void initSizeManager();
+    protected abstract void initTopLabel();
 
-    protected abstract void initFields();
-
-    protected class TopLabel extends View {
+    protected abstract class TopLabel extends View {
 
         private int width;
         private int height;
@@ -159,6 +189,8 @@ public abstract class PeriodView extends LinearLayout{
 
             canvas.drawLine(0, height, width, height, labelLinePaint);
         }
+
+        protected abstract void drawTopLabelElement(Canvas canvas, int i);
     }
 
     protected class BoardScrollView extends ScrollView {
@@ -172,7 +204,6 @@ public abstract class PeriodView extends LinearLayout{
             linearLayout.setLayoutParams(new ScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
             boardView = new BoardView(context, null);
-            //boardView.setLayoutParams(new LinearLayout.LayoutParams(400, 400));
 
             linearLayout.addView(boardView);
             addView(linearLayout);
@@ -194,7 +225,7 @@ public abstract class PeriodView extends LinearLayout{
             protected void onDraw(Canvas canvas) {
                 for (int col = 0; col < numberOfCols; col++) {
                     for (int row = 0; row < numberOfRows; row++) {
-                        rects[col][row].draw(canvas, boardLeftPad);
+                        rects[col][row].draw(canvas, sizesManager.getBoardLeftPad());
                     }
                 }
             }

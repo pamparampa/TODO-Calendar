@@ -3,7 +3,6 @@ package com.example.pamparampa.todocalendar.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 
 import com.example.pamparampa.todocalendar.R;
 
@@ -20,63 +19,63 @@ public class WeekView extends PeriodView {
     }
 
     @Override
-    protected void initFields() {
+    protected void initNumberOfColsAndRows() {
         numberOfCols = 7;
         numberOfRows = 24;
+    }
 
+    @Override
+    protected void initFirstVisableDateTime() {
         firstVisibleDateTime = getFirstDayOfWeek(date);
+    }
+
+    @Override
+    protected void initRectTimeUnit() {
         rectTimeUnit = Calendar.HOUR_OF_DAY;
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-
-        coordinateRects();
-        boardScrollView.resize(width, width * 100 / 33);    // TODO odhardcodowac
+    protected void initSizeManager() {
+        sizesManager = new CalendarWeekSizesManager(numberOfCols, numberOfRows);
     }
 
-    private void coordinateRects() {
-        int rectLength = width / (numberOfCols + 1);
-        boardLeftPad = rectLength;
-        for (int col = 0; col < numberOfCols; col++) {
-            for (int j = 0; j < numberOfRows; j++) {
-                rects[col][j].setCoordinates(
-                        rectLength, rectLength);
-            }
+    @Override
+    protected void initTopLabel() {
+        topLabel = new WeekTopLabel(context);
+    }
+
+    protected class WeekTopLabel extends PeriodView.TopLabel {
+
+        public WeekTopLabel(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void drawTopLabelElement(Canvas canvas, int dayOfWeek){
+            float x = sizesManager.getTopLabelElementX(dayOfWeek);
+
+            drawDayOfWeek(canvas, dayOfWeek, x);
+            drawDayOfMonth(canvas, dayOfWeek, x);
+        }
+
+        private void drawDayOfWeek(Canvas canvas, int dayOfWeek, float x) {
+            String[] weekDaysL = getResources().getStringArray(R.array.weekDaysL);
+
+            canvas.drawText(
+                    weekDaysL[dayOfWeek],
+                    x,
+                    sizesManager.getTextLineShift(1),
+                    labelTextPaint);
         }
     }
 
-    @Override
-    protected void composeView(Context context) {
-        super.composeView(context);
-
-        topLabel.setLayoutParams(new LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.9f
-        ));
-
-        boardScrollView.setLayoutParams(new LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.1f));
-    }
-
-    @Override
-    protected void drawTopLabelElement(Canvas canvas, int dayOfWeek){
-        String[] weekDaysL = getResources().getStringArray(R.array.weekDaysL);
-
-        //TODO odharcodowac te metode
-        float x = (boardLeftPad * 1.25f) + (dayOfWeek * (width / (numberOfCols + 1)));
-        canvas.drawText(
-                weekDaysL[dayOfWeek],
-                x,
-                textSize * 1.5f,
-                labelTextPaint);
-
-        calendar.setTime(firstVisibleDateTime);
-        calendar.add(Calendar.DAY_OF_MONTH, dayOfWeek);
-        canvas.drawText(
-                String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)),
-                x,
-                textSize * 3,
-                labelTextPaint);
-    }
+        private void drawDayOfMonth(Canvas canvas, int dayOfWeek, float x) {
+            calendar.setTime(firstVisibleDateTime);
+            calendar.add(Calendar.DAY_OF_MONTH, dayOfWeek);
+            canvas.drawText(
+                    String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)),
+                    x,
+                    sizesManager.getTextLineShift(2),
+                    labelTextPaint);
+        }
 }

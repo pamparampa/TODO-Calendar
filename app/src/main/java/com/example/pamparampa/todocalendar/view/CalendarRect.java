@@ -13,10 +13,10 @@ import java.util.Date;
 public class CalendarRect {
     private int col;
     private int row;
-    private int x;
-    private int y;
-    private int width;
-    private int height;
+    private float x;
+    private float y;
+    private float width;
+    private float height;
     private final Date dateTime;
     private final Paint paint;
     private final Calendar calendar;
@@ -31,7 +31,7 @@ public class CalendarRect {
         paint.setStyle(Paint.Style.STROKE);
     }
 
-    public void setCoordinates(int w, int h) {
+    public void setCoordinates(float w, float h) {
         width = w;
         height = h;
         x = col * width;

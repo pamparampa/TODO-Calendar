@@ -32,7 +32,7 @@ public abstract class PeriodView extends LinearLayout{
     protected int numberOfRows;
 
     protected TopLabel topLabel;
-    private BoardScrollView boardScrollView;
+    protected BoardScrollView boardScrollView;
 
     protected Paint labelTextPaint;
     protected Paint labelLinePaint;
@@ -43,7 +43,6 @@ public abstract class PeriodView extends LinearLayout{
 
     protected Context context;
 
-    // TODO posortowac
     public PeriodView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -91,7 +90,7 @@ public abstract class PeriodView extends LinearLayout{
     private void composeView() {
 
         initBoard();
-        boardScrollView = new BoardScrollView(context, null);
+        initBoardScrollView();
 
         topLabel.setLayoutParams(new LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -106,6 +105,10 @@ public abstract class PeriodView extends LinearLayout{
 
         addView(topLabel);
         addView(boardScrollView);
+    }
+
+    protected void initBoardScrollView() {
+        boardScrollView = new BoardScrollView(context, null);
     }
 
     private void initBoard() {
@@ -195,20 +198,27 @@ public abstract class PeriodView extends LinearLayout{
 
     protected class BoardScrollView extends ScrollView {
 
-        private final BoardView boardView;
+        protected BoardView boardView;
+        protected Context context;
 
         public BoardScrollView(Context context, AttributeSet attrs) {
             super(context);
 
+            this.context = context;
+
             LinearLayout linearLayout = new LinearLayout(context);
             linearLayout.setLayoutParams(new ScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-            boardView = new BoardView(context, null);
-
+            initBoardView();
             linearLayout.addView(boardView);
             addView(linearLayout);
 
         }
+
+        protected void initBoardView() {
+            boardView = new BoardView(context, null);
+        }
+
 
         public void resize(int w, int h) {
             boardView.setLayoutParams(new LinearLayout.LayoutParams(w, h));
@@ -223,12 +233,19 @@ public abstract class PeriodView extends LinearLayout{
 
             @Override
             protected void onDraw(Canvas canvas) {
+                drawLeftLabel(canvas);
+                drawBoard(canvas);
+            }
+
+            private void drawBoard(Canvas canvas) {
                 for (int col = 0; col < numberOfCols; col++) {
                     for (int row = 0; row < numberOfRows; row++) {
                         rects[col][row].draw(canvas, sizesManager.getBoardLeftPad());
                     }
                 }
             }
+
+            protected void drawLeftLabel(Canvas canvas) {};
         }
     }
 }

@@ -35,6 +35,14 @@ abstract class CalendarSizesManager {
         return numberOfLine * getTextSize() * 1.5f;
     }
 
+    float getTextLeftShift() {
+        return getTextSize() / 3;
+    }
+
+    float getTextRectY(int row) {
+        return (getRectHeight() * row) + getTextLineShift(1);
+    }
+
     abstract float getTopLabelWeight();
 
     abstract float getTopLabelElementX(int dayOfWeek);
@@ -48,6 +56,5 @@ abstract class CalendarSizesManager {
     abstract int getRectWidth();
 
     abstract int getRectHeight();
-
 
 }

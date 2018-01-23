@@ -3,12 +3,15 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <view
-        class="com.example.pamparampa.todocalendar.view.WeekView"
-        id="@+id/view"
+        android:id="@+id/calendarView"
+        class="com.example.pamparampa.todocalendar.view.CalendarView"
+        id="@+id/view3"
         layout_width="match_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>

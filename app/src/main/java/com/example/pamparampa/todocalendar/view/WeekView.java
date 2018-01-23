@@ -8,6 +8,7 @@ import com.example.pamparampa.todocalendar.R;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.logging.Logger;
 
 /**
  * Created by Pamparampa on 2018-01-03.
@@ -16,7 +17,11 @@ import java.util.Calendar;
 public class WeekView extends PeriodView {
 
     public WeekView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, false);
+    }
+
+    public WeekView(Context context, AttributeSet attrs, Boolean test) {
+        super(context, attrs, test);
     }
 
     @Override
@@ -26,7 +31,7 @@ public class WeekView extends PeriodView {
     }
 
     @Override
-    protected void initFirstVisableDateTime() {
+    protected void initFirstVisibleDateTime() {
         firstVisibleDateTime = getFirstDayOfWeek(date);
     }
 
@@ -115,6 +120,7 @@ public class WeekView extends PeriodView {
                             labelTextPaint
                     );
                     calendar.add(Calendar.HOUR_OF_DAY, 1);
+
                 }
             }
         }

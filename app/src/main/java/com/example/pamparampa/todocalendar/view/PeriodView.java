@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -24,6 +25,7 @@ import java.util.Date;
 
 public abstract class PeriodView extends LinearLayout{
 
+    //TODO byc moze zabronic tworzenia tej klasy bez CalendarView
     protected Date date;
     protected Date firstVisibleDateTime;
     protected Calendar calendar;
@@ -41,23 +43,25 @@ public abstract class PeriodView extends LinearLayout{
     protected int rectTimeUnit;
     protected CalendarSizesManager sizesManager;
 
-    protected Context context;
+    protected Context context;  // TODO pozbyc sie tej zmiennej // czy aby na pewno?
+    private OnFlipListener onFlipListener;
 
-    public PeriodView(Context context, AttributeSet attrs) {
+    public PeriodView(Context context, AttributeSet attrs, Boolean test) {
         super(context, attrs);
 
         this.context = context;
-        TypedArray tArray = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.PeriodView,
-                0, 0);
         calendar = Calendar.getInstance();
+        date = new Date();
+        //testInit();
 
-        achieveDate(tArray);
-        setOrientation(VERTICAL);
+        //setOrientation(VERTICAL);
         initFields();
-        composeView();
-        initPaints();
+        if (!test) {
+            setOrientation(VERTICAL);
+            composeView();
+            initPaints();
+        }
+
     }
 
     private void achieveDate(TypedArray tArray) {
@@ -79,9 +83,10 @@ public abstract class PeriodView extends LinearLayout{
         }
     }
 
+
     private void initFields() {
         initNumberOfColsAndRows();
-        initFirstVisableDateTime();
+        initFirstVisibleDateTime();
         initRectTimeUnit();
         initSizeManager();
         initTopLabel();
@@ -101,7 +106,8 @@ public abstract class PeriodView extends LinearLayout{
         boardScrollView.setLayoutParams(new LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                sizesManager.getBoardWeight()));
+                sizesManager.getBoardWeight()
+        ));
 
         addView(topLabel);
         addView(boardScrollView);
@@ -130,8 +136,18 @@ public abstract class PeriodView extends LinearLayout{
         labelLinePaint.setStrokeWidth(sizesManager.getBoldLineWidth());
     }
 
+    public int getRectTimeUnit() {
+        return rectTimeUnit;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+
         sizesManager.setWidth(w);
         sizesManager.setHeight(h);
 
@@ -140,6 +156,7 @@ public abstract class PeriodView extends LinearLayout{
         coordinateRects();
         boardScrollView.resize(w, sizesManager.getBoardHeight());
     }
+
 
     private void coordinateRects() {
         for (int col = 0; col < numberOfCols; col++) {
@@ -161,8 +178,17 @@ public abstract class PeriodView extends LinearLayout{
         return calendar.getTime();
     }
 
+    public void setDate(Date date) {
+        this.date = date;
+        firstVisibleDateTime = getFirstDayOfWeek(date);
+    }
+
+    public void setOnFlipListener(OnFlipListener onFlipListener) {
+        this.onFlipListener = onFlipListener;
+    }
+
     protected abstract void initNumberOfColsAndRows();
-    protected abstract void initFirstVisableDateTime();
+    protected abstract void initFirstVisibleDateTime();
     protected abstract void initRectTimeUnit();
     protected abstract void initSizeManager();
     protected abstract void initTopLabel();
@@ -200,6 +226,7 @@ public abstract class PeriodView extends LinearLayout{
 
         protected BoardView boardView;
         protected Context context;
+        private float initialX;
 
         public BoardScrollView(Context context, AttributeSet attrs) {
             super(context);
@@ -215,14 +242,41 @@ public abstract class PeriodView extends LinearLayout{
 
         }
 
+        @Override
+        public boolean onTouchEvent(MotionEvent event) {
+
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_MOVE:
+                    if (event.getAxisValue(MotionEvent.AXIS_Y) != 0) return super.onTouchEvent(event);
+                    break;
+
+                case MotionEvent.ACTION_DOWN:
+                    initialX = event.getX();
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    float finalX = event.getX();
+                    if (initialX > finalX + 100) {
+                        return onFlipListener.onFlipNext();
+                    } else if (initialX < finalX - 100){
+                        return onFlipListener.onFlipPrev();
+                    }
+                    else return super.onTouchEvent(event);
+            }
+            return true;
+
+        }
+
         protected void initBoardView() {
             boardView = new BoardView(context, null);
         }
 
 
         public void resize(int w, int h) {
+
             boardView.setLayoutParams(new LinearLayout.LayoutParams(w, h));
             boardView.postInvalidate();
+
         }
 
         protected class BoardView extends View {
@@ -233,6 +287,7 @@ public abstract class PeriodView extends LinearLayout{
 
             @Override
             protected void onDraw(Canvas canvas) {
+
                 drawLeftLabel(canvas);
                 drawBoard(canvas);
             }

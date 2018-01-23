@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by Pamparampa on 2018-01-18.
  */
 
-public class CalendarRect {
+class CalendarRect {
     private int col;
     private int row;
     private float x;

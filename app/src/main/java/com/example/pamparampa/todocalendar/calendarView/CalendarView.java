@@ -1,8 +1,7 @@
-package com.example.pamparampa.todocalendar.view;
+package com.example.pamparampa.todocalendar.calendarView;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 import android.widget.ViewFlipper;
 
 import com.example.pamparampa.todocalendar.R;

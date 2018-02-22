@@ -8,7 +8,7 @@
 
     <view
         android:id="@+id/calendarView"
-        class="com.example.pamparampa.todocalendar.view.CalendarView"
+        class="com.example.pamparampa.todocalendar.calendarView.CalendarView"
         id="@+id/view3"
         layout_width="match_parent"
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.example.pamparampa.todocalendar.view;
+package com.example.pamparampa.todocalendar.calendarView;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -29,21 +29,21 @@ class CalendarRect {
         calendar = Calendar.getInstance();
         paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
+        paint.setAntiAlias(true);
     }
 
     public void setCoordinates(float w, float h) {
         width = w;
         height = h;
         x = col * width;
-        y = row * height;
     }
 
     public void draw(Canvas canvas, int boardLeftPad) {
         canvas.drawRect(
                 boardLeftPad + x,
-                y,
+                0,
                 boardLeftPad + x + width,
-                y + height,
+                height,
                 paint);
     }
 }

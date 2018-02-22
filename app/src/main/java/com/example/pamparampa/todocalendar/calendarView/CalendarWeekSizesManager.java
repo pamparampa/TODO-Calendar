@@ -1,4 +1,4 @@
-package com.example.pamparampa.todocalendar.view;
+package com.example.pamparampa.todocalendar.calendarView;
 
 /**
  * Created by Pamparampa on 2018-01-19.
@@ -8,6 +8,10 @@ class CalendarWeekSizesManager extends CalendarSizesManager {
 
     CalendarWeekSizesManager(int numberOfCols, int numberOfRows) {
         super(numberOfCols, numberOfRows);
+    }
+
+    CalendarWeekSizesManager(int numberOfCols) {
+        super(numberOfCols);
     }
 
     @Override
@@ -43,6 +47,7 @@ class CalendarWeekSizesManager extends CalendarSizesManager {
 
     @Override
     int getRectHeight() {
-        return width / (numberOfCols + 1);
+        if (rowHeight != 0) return super.getRectHeight();
+        else return width / (numberOfCols + 1);
     }
 }

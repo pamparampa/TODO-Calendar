@@ -2,7 +2,7 @@ package com.example.pamparampa.todocalendar;
 
 import android.content.Context;
 
-import com.example.pamparampa.todocalendar.view.CalendarView;
+import com.example.pamparampa.todocalendar.calendarView.CalendarView;
 
 import org.junit.Before;
 import org.junit.Test;

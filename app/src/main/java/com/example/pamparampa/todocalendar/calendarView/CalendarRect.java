@@ -11,22 +11,20 @@ import java.util.Date;
  */
 
 class CalendarRect {
-    private int col;
-    private int row;
+    private final int col;
+    private final int row;
+    private final Date dateTime;
     private float x;
-    private float y;
     private float width;
     private float height;
-    private final Date dateTime;
     private final Paint paint;
-    private final Calendar calendar;
 
-    public CalendarRect(Date dateTime, int col, int row) {
+    public CalendarRect(Date dateTime, int col, int row, int width, int height) {
         this.col = col;
         this.row = row;
         this.dateTime = dateTime;
+        setCoordinates(width, height);
 
-        calendar = Calendar.getInstance();
         paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);

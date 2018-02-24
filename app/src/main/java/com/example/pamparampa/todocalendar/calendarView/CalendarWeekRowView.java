@@ -49,10 +49,36 @@ class CalendarWeekRowView extends View{
         invalidate();
     }
 
+    public void setParams(CalendarParameters params) {
+        this.params = params;
+        labelTextPaint = params.getLabelTextPaint();
+    }
+
+    public void setSizesManager(CalendarSizesManager sizesManager) {
+        this.sizesManager = sizesManager;
+    }
+
+    public void compose() {
+        super.invalidate();
+
+        for (int col = 0; col < numberOfCols; col++) {          // TODO przeniesc do innej metody?
+            calendar.add(Calendar.DAY_OF_WEEK, 1);
+            CalendarRect rect = new CalendarRect(
+                    calendar.getTime(),
+                    col,
+                    row,
+                    sizesManager.getRectWidth(),
+                    sizesManager.getRectHeight()
+                    );
+            rects[col] = rect;
+        }
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
+        if (sizesManager == null || labelTextPaint == null) return;
+
         DecimalFormat formatter = new DecimalFormat("00");
-        labelTextPaint.setAntiAlias(true);  // TODO przeniesc do jakiegos wspolnego repozytorium
         calendar.set(Calendar.HOUR_OF_DAY, row);    // TODO dla innego widoku ma byc inna jednostka
         canvas.drawText(
                 formatter.format(calendar.get(Calendar.HOUR_OF_DAY)) + ":00",
@@ -62,21 +88,6 @@ class CalendarWeekRowView extends View{
         );
         for (int col = 0; col < numberOfCols; col++) {
             rects[col].draw(canvas, sizesManager.getBoardLeftPad());
-        }
-    }
-
-    public void setSizesManager(CalendarSizesManager sizesManager) {
-        this.sizesManager = sizesManager;
-
-        labelTextPaint = new Paint();
-
-        labelTextPaint.setTextSize(sizesManager.getTextSize());
-
-        for (int col = 0; col < numberOfCols; col++) {          // TODO przeniesc do innej metody?
-            calendar.add(Calendar.DAY_OF_WEEK, 1);
-            CalendarRect rect = new CalendarRect(calendar.getTime(), col, row);
-            rect.setCoordinates(sizesManager.getRectWidth(), sizesManager.getRectHeight());
-            rects[col] = rect;
         }
     }
 }

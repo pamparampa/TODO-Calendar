@@ -57,9 +57,9 @@ class CalendarRowAdapter extends BaseAdapter {
             viewHolder.rowView = convertView.findViewById(R.id.rowView);
             viewHolder.rowView.setDate(params.getFirstVisibleDate());
             viewHolder.rowView.setRow(position);
+            viewHolder.rowView.setParams(params);
             viewHolder.rowView.setSizesManager(sizesManager);           // TODO Czy to sie wykona zawsze przy zmianie rozmiarow?
-
-
+            viewHolder.rowView.compose();
 
             convertView.setTag(viewHolder);
         }

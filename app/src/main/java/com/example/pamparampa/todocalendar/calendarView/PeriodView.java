@@ -47,8 +47,8 @@ public abstract class PeriodView extends LinearLayout{
         initFields();
         if (!test) {
             setOrientation(VERTICAL);
-            composeView();
             initPaints();
+            composeView();
         }
 
     }

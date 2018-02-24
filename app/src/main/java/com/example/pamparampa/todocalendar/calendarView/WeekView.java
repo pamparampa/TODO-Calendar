@@ -64,7 +64,7 @@ public class WeekView extends PeriodView {
                     weekDaysL[dayOfWeek],
                     x,
                     sizesManager.getTextLineShift(1),
-                    labelTextPaint);
+                    params.getLabelTextPaint());
         }
 
         private void drawDayOfMonth(Canvas canvas, int dayOfWeek, float x) {
@@ -74,7 +74,7 @@ public class WeekView extends PeriodView {
                     String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)),
                     x,
                     sizesManager.getTextLineShift(2),
-                    labelTextPaint);
+                    params.getLabelTextPaint());
         }
     }
 }

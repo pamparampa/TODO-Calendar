@@ -68,7 +68,8 @@ class CalendarWeekRowView extends View{
                     col,
                     row,
                     sizesManager.getRectWidth(),
-                    sizesManager.getRectHeight()
+                    sizesManager.getRectHeight(),
+                    params
                     );
             rects[col] = rect;
         }

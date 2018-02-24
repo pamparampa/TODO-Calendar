@@ -17,17 +17,14 @@ class CalendarRect {
     private float x;
     private float width;
     private float height;
-    private final Paint paint;
+    private CalendarParameters params;
 
-    public CalendarRect(Date dateTime, int col, int row, int width, int height) {
+    public CalendarRect(Date dateTime, int col, int row, int width, int height, CalendarParameters params) {
         this.col = col;
         this.row = row;
         this.dateTime = dateTime;
+        this.params = params;
         setCoordinates(width, height);
-
-        paint = new Paint();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setAntiAlias(true);
     }
 
     public void setCoordinates(float w, float h) {
@@ -42,6 +39,6 @@ class CalendarRect {
                 0,
                 boardLeftPad + x + width,
                 height,
-                paint);
+                params.getLinePaint());
     }
 }

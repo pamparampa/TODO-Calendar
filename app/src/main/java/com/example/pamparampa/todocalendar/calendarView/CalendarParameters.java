@@ -11,11 +11,21 @@ import java.util.Date;
 
 class CalendarParameters {
 
+    private final Paint labelLinePaint = new Paint();
+    private final Paint linePaint = new Paint();
     private int numberOfRows;
     private CalendarSizesManager sizesManager;
     private Calendar calendar;
     private Date firstVisibleDate;
-    private Paint labelTextPaint;
+    private final Paint labelTextPaint = new Paint();
+
+    public CalendarParameters() {
+        labelTextPaint.setAntiAlias(true);
+        linePaint.setStyle(Paint.Style.STROKE);
+        linePaint.setAntiAlias(true);
+        labelLinePaint.setStyle(Paint.Style.STROKE);
+        labelLinePaint.setAntiAlias(true);
+    }
 
     public int getNumberOfRows() {
         return numberOfRows;
@@ -48,6 +58,7 @@ class CalendarParameters {
 
     public void setSizesManager(CalendarSizesManager sizesManager) {
         this.sizesManager = sizesManager;
+        labelLinePaint.setStrokeWidth(sizesManager.getBoldLineWidth());
     }
 
     public void setCalendar(Calendar calendar) {
@@ -58,7 +69,15 @@ class CalendarParameters {
         this.firstVisibleDate = firstVisibleDate;
     }
 
-    public void setLabelTextPaint(Paint labelTextPaint) {
-        this.labelTextPaint = labelTextPaint;
+    public Paint getLinePaint() {
+        return linePaint;
+    }
+
+    public Paint getLabelLinePaint() {
+        return labelLinePaint;
+    }
+
+    public void setTextSize(float textSize) {
+        labelTextPaint.setTextSize(textSize);
     }
 }

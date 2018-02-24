@@ -29,14 +29,12 @@ public abstract class PeriodView extends LinearLayout{
     protected TopLabel topLabel;
     protected BoardListView boarListView;
 
-    protected Paint labelTextPaint;
-    protected Paint labelLinePaint;
-
     protected int rectTimeUnit;
     protected CalendarSizesManager sizesManager;
 
     protected Context context;  // TODO pozbyc sie tej zmiennej // czy aby na pewno?
     private OnFlipListener onFlipListener;
+    protected CalendarParameters params;
 
     public PeriodView(Context context, AttributeSet attrs, Boolean test) {
         super(context, attrs);
@@ -47,7 +45,6 @@ public abstract class PeriodView extends LinearLayout{
         initFields();
         if (!test) {
             setOrientation(VERTICAL);
-            initPaints();
             composeView();
         }
 
@@ -82,22 +79,13 @@ public abstract class PeriodView extends LinearLayout{
     }
 
     private CalendarParameters createParams() {
-        CalendarParameters params = new CalendarParameters();
+        params = new CalendarParameters();
         params.setCalendar(calendar);
         params.setFirstVisibleDate(firstVisibleDateTime);
-        params.setLabelTextPaint(labelTextPaint); //TODO byc moze przeniesc inicjacje gdzie indziej
         params.setNumberOfRows(numberOfRows);
         params.setSizesManager(sizesManager);
 
         return params;
-    }
-
-    private void initPaints() {
-        labelTextPaint = new Paint();
-        labelTextPaint.setAntiAlias(true);
-
-        labelLinePaint = new Paint();
-        labelLinePaint.setStrokeWidth(sizesManager.getBoldLineWidth());
     }
 
     public Date getDate() {
@@ -113,7 +101,7 @@ public abstract class PeriodView extends LinearLayout{
 
         boarListView.setSizesManager(sizesManager);
 
-        labelTextPaint.setTextSize(sizesManager.getTextSize());
+        params.setTextSize(sizesManager.getTextSize());
 
         //coordinateRects();
         //boarListView.resize(w, sizesManager.getBoardHeight());
@@ -167,7 +155,7 @@ public abstract class PeriodView extends LinearLayout{
                 drawTopLabelElement(canvas, i);
             }
 
-            canvas.drawLine(0, height, width, height, labelLinePaint);
+            canvas.drawLine(0, height, width, height, params.getLabelLinePaint());
         }
 
         protected abstract void drawTopLabelElement(Canvas canvas, int i);

@@ -18,6 +18,7 @@ class CalendarParameters {
     private Calendar calendar;
     private Date firstVisibleDate;
     private final Paint labelTextPaint = new Paint();
+    private int rowViewResource;
 
     public CalendarParameters() {
         labelTextPaint.setAntiAlias(true);
@@ -79,5 +80,13 @@ class CalendarParameters {
 
     public void setTextSize(float textSize) {
         labelTextPaint.setTextSize(textSize);
+    }
+
+    public int getRowViewResource() {
+        return rowViewResource;
+    }
+
+    public void setRowViewResource(int rowViewResource) {
+        this.rowViewResource = rowViewResource;
     }
 }

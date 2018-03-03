@@ -39,6 +39,11 @@ public class WeekView extends PeriodView {
     }
 
     @Override
+    protected void initRowViewResource() {
+        rowViewResource = R.layout.calendar_week_row;
+    }
+
+    @Override
     protected void initTopLabel() {
         topLabel = new WeekTopLabel(context);
     }

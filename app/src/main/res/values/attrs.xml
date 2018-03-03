@@ -4,6 +4,6 @@
         <attr name="date" format="string"/>
     </declare-styleable>
     <declare-styleable name="CalendarWeekRowView">
-        <attr name="row" format="integer"/>
+        <attr name="rowId" format="integer"/>
     </declare-styleable>
 </resources>

@@ -9,21 +9,16 @@ import android.widget.BaseAdapter;
 
 import com.example.pamparampa.todocalendar.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Pamparampa on 2018-02-01.
  */
 
 class CalendarRowAdapter extends BaseAdapter {
     private final Context context;
-    List<CalendarWeekRowView> rows;
     CalendarParameters params;
     private CalendarSizesManager sizesManager;
 
     CalendarRowAdapter(Context context, CalendarParameters params) {
-        rows = new ArrayList<>();
         this.context = context;
         this.params = params;
     }
@@ -49,14 +44,14 @@ class CalendarRowAdapter extends BaseAdapter {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.calendar_row, parent, false);
+            convertView = inflater.inflate(params.getRowViewResource(), parent, false);
             convertView.setLayoutParams(new AbsListView.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, params.getSizesManager().getRectHeight()));
 
             viewHolder = new ViewHolderPattern();
             viewHolder.rowView = convertView.findViewById(R.id.rowView);
             viewHolder.rowView.setDate(params.getFirstVisibleDate());
-            viewHolder.rowView.setRow(position);
+            viewHolder.rowView.setRowId(position);
             viewHolder.rowView.setParams(params);
             viewHolder.rowView.setSizesManager(sizesManager);           // TODO Czy to sie wykona zawsze przy zmianie rozmiarow?
             viewHolder.rowView.compose();
@@ -66,7 +61,7 @@ class CalendarRowAdapter extends BaseAdapter {
         else {
             viewHolder = (ViewHolderPattern) convertView.getTag();
         }
-        viewHolder.rowView.setRow(position);
+        viewHolder.rowView.setRowId(position);
 
         return convertView;
     }

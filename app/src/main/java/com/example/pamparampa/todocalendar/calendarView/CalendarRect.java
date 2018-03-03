@@ -33,7 +33,8 @@ class CalendarRect {
         x = col * width;
     }
 
-    public void draw(Canvas canvas, int boardLeftPad) {
+    public void draw(Canvas canvas) {
+        int boardLeftPad = params.getSizesManager().getBoardLeftPad();
         canvas.drawRect(
                 boardLeftPad + x,
                 0,

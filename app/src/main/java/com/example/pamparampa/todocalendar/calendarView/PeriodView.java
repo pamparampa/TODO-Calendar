@@ -36,6 +36,8 @@ public abstract class PeriodView extends LinearLayout{
     private OnFlipListener onFlipListener;
     protected CalendarParameters params;
 
+    protected int rowViewResource;
+
     public PeriodView(Context context, AttributeSet attrs, Boolean test) {
         super(context, attrs);
 
@@ -51,11 +53,14 @@ public abstract class PeriodView extends LinearLayout{
     }
 
     private void initFields() {
+        initRowViewResource();
         initNumberOfColsAndRows();
         initFirstVisibleDateTime();
         initSizeManager();
         initTopLabel();
     }
+
+    protected abstract void initRowViewResource();
 
     private void composeView() {
 
@@ -84,6 +89,7 @@ public abstract class PeriodView extends LinearLayout{
         params.setFirstVisibleDate(firstVisibleDateTime);
         params.setNumberOfRows(numberOfRows);
         params.setSizesManager(sizesManager);
+        params.setRowViewResource(rowViewResource);
 
         return params;
     }

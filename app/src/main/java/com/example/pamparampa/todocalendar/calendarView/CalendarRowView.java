@@ -48,11 +48,8 @@ public abstract class CalendarRowView extends View {
 
     public void setParams(CalendarParameters params) {
         this.params = params;
+        sizesManager = params.getSizesManager();
         labelTextPaint = params.getLabelTextPaint();
-    }
-
-    public void setSizesManager(CalendarSizesManager sizesManager) {
-        this.sizesManager = sizesManager;
     }
 
     public void compose() throws IllegalStateException {

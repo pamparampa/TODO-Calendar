@@ -1,6 +1,7 @@
 package com.example.pamparampa.todocalendar.calendarView;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,7 @@ import com.example.pamparampa.todocalendar.R;
 
 class CalendarRowAdapter extends BaseAdapter {
     private final Context context;
-    CalendarParameters params;
-    private CalendarSizesManager sizesManager;
+    private final CalendarParameters params;
 
     CalendarRowAdapter(Context context, CalendarParameters params) {
         this.context = context;
@@ -25,7 +25,7 @@ class CalendarRowAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 24;
+        return params.getNumberOfRows();
     }
 
     @Override
@@ -48,14 +48,7 @@ class CalendarRowAdapter extends BaseAdapter {
             convertView.setLayoutParams(new AbsListView.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, params.getSizesManager().getRectHeight()));
 
-            viewHolder = new ViewHolderPattern();
-            viewHolder.rowView = convertView.findViewById(R.id.rowView);
-            viewHolder.rowView.setDate(params.getFirstVisibleDate());
-            viewHolder.rowView.setRowId(position);
-            viewHolder.rowView.setParams(params);
-            viewHolder.rowView.setSizesManager(sizesManager);           // TODO Czy to sie wykona zawsze przy zmianie rozmiarow?
-            viewHolder.rowView.compose();
-
+            viewHolder = initRowView(position, convertView);
             convertView.setTag(viewHolder);
         }
         else {
@@ -66,8 +59,16 @@ class CalendarRowAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void setSizesManager(CalendarSizesManager sizesManager) {
-        this.sizesManager = sizesManager;
+    @NonNull
+    private ViewHolderPattern initRowView(int position, View convertView) {
+        ViewHolderPattern viewHolder;
+        viewHolder = new ViewHolderPattern();
+        viewHolder.rowView = convertView.findViewById(R.id.rowView);
+        viewHolder.rowView.setDate(params.getFirstVisibleDate());
+        viewHolder.rowView.setRowId(position);
+        viewHolder.rowView.setParams(params);
+        viewHolder.rowView.compose();
+        return viewHolder;
     }
 
     private class ViewHolderPattern {

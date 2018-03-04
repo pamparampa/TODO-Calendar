@@ -105,24 +105,8 @@ public abstract class PeriodView extends LinearLayout{
         sizesManager.setWidth(w);
         sizesManager.setHeight(h);
 
-        boarListView.setSizesManager(sizesManager);
-
         params.setTextSize(sizesManager.getTextSize());
-
-        //coordinateRects();
-        //boarListView.resize(w, sizesManager.getBoardHeight());
     }
-
-    /*
-    private void coordinateRects() {
-        for (int col = 0; col < numberOfCols; col++) {
-            for (int j = 0; j < numberOfRows; j++) {
-                rects[col][j].setCoordinates(
-                        sizesManager.getRectHeight(), sizesManager.getRectWidth());
-            }
-        }
-    }
-    */
 
     public void setDate(Date date) {
         this.date = date;

@@ -37,16 +37,6 @@ public class BoardListView extends ListView{
         this.onFlipListener = onFlipListener;
     }
 
-    protected void onDraw(Canvas canvas) {
-
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -70,9 +60,5 @@ public class BoardListView extends ListView{
         }
         return true;
 
-    }
-
-    public void setSizesManager(CalendarSizesManager sizesManager) {
-        adapter.setSizesManager(sizesManager);
     }
 }

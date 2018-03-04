@@ -89,4 +89,5 @@ class CalendarParameters {
     public void setRowViewResource(int rowViewResource) {
         this.rowViewResource = rowViewResource;
     }
+
 }

@@ -13,7 +13,7 @@ import android.widget.ScrollView;
 
 public class BoardListView extends ListView{
 
-    private final CalendarRowAdapter adapter;
+    private final int SCROLL_BOUND = 100;
     private float initialX;
     private OnFlipListener onFlipListener;
 
@@ -23,8 +23,7 @@ public class BoardListView extends ListView{
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setLayoutParams(new ScrollView.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        adapter = new CalendarRowAdapter(context, params);
-        setAdapter(adapter);
+        setAdapter(new CalendarRowAdapter(context, params));
 
     }
 
@@ -46,9 +45,9 @@ public class BoardListView extends ListView{
 
             case MotionEvent.ACTION_UP:
                 float finalX = event.getX();
-                if (initialX > finalX + 100) {
+                if (initialX > finalX + SCROLL_BOUND) {
                     return onFlipListener.onFlipNext();
-                } else if (initialX < finalX - 100){
+                } else if (initialX < finalX - SCROLL_BOUND){
                     return onFlipListener.onFlipPrev();
                 }
                 else return super.onTouchEvent(event);

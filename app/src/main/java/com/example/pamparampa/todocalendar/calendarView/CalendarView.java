@@ -75,8 +75,11 @@ public class CalendarView extends ViewFlipper implements OnFlipListener {
 
     @Override
     public boolean onFlipNext() {
+
+        int position = currentPeriodView.getPosition();
         prevPeriodView = currentPeriodView;
         currentPeriodView = nextPeriodView;
+        currentPeriodView.setSelection(position);
         date = currentPeriodView.getDate();
         nextPeriodView = createPeriodView(1);
 
@@ -99,7 +102,9 @@ public class CalendarView extends ViewFlipper implements OnFlipListener {
     @Override
     public boolean onFlipPrev() {
         nextPeriodView = currentPeriodView;
+        int position = currentPeriodView.getPosition();
         currentPeriodView = prevPeriodView;
+        currentPeriodView.setSelection(position);
         date = currentPeriodView.getDate();
         prevPeriodView = createPeriodView(-1);
         if(!test) flipPrevAnimation();

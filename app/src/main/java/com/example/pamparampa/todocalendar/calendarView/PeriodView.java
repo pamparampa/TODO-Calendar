@@ -33,7 +33,6 @@ public abstract class PeriodView extends LinearLayout{
     protected CalendarSizesManager sizesManager;
 
     protected Context context;  // TODO pozbyc sie tej zmiennej // czy aby na pewno?
-    private OnFlipListener onFlipListener;
     protected CalendarParameters params;
 
     protected int rowViewResource;
@@ -49,7 +48,6 @@ public abstract class PeriodView extends LinearLayout{
             setOrientation(VERTICAL);
             composeView();
         }
-
     }
 
     private void initFields() {
@@ -65,7 +63,6 @@ public abstract class PeriodView extends LinearLayout{
     private void composeView() {
 
         boarListView = new BoardListView(context, createParams());
-        boarListView.setOnFlipListener(onFlipListener);
 
         topLabel.setLayoutParams(new LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -98,7 +95,9 @@ public abstract class PeriodView extends LinearLayout{
         return date;
     }
 
-
+    public void setOnFlipListener(OnFlipListener onFlipListener) {
+        boarListView.setOnFlipListener(onFlipListener);
+    }
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 
@@ -113,14 +112,18 @@ public abstract class PeriodView extends LinearLayout{
         firstVisibleDateTime = CalendarUtil.getFirstDayOfWeek(date);
     }
 
-    public void setOnFlipListener(OnFlipListener onFlipListener) {
-        this.onFlipListener = onFlipListener;
-    }
-
     protected abstract void initNumberOfColsAndRows();
     protected abstract void initFirstVisibleDateTime();
     protected abstract void initSizeManager();
     protected abstract void initTopLabel();
+
+    public int getPosition() {
+        return boarListView.getFirstVisiblePosition();
+    }
+
+    public void setSelection(int position) {
+        boarListView.setSelection(position);
+    }
 
     protected abstract class TopLabel extends View {
 

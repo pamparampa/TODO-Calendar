@@ -64,7 +64,7 @@ class CalendarRowAdapter extends BaseAdapter {
         ViewHolderPattern viewHolder;
         viewHolder = new ViewHolderPattern();
         viewHolder.rowView = convertView.findViewById(R.id.rowView);
-        viewHolder.rowView.setDate(params.getFirstVisibleDate());
+        viewHolder.rowView.setDate(params.getFirstVisibleDateTime());
         viewHolder.rowView.setRowId(position);
         viewHolder.rowView.setParams(params);
         viewHolder.rowView.compose();

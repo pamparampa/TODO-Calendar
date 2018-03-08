@@ -14,23 +14,14 @@ import java.util.Calendar;
 
 public class WeekView extends PeriodView {
 
-    public WeekView(Context context, AttributeSet attrs) {
-        this(context, attrs, false);
-    }
-
     public WeekView(Context context, AttributeSet attrs, Boolean test) {
-        super(context, attrs, test);
+        super(context, test);
     }
 
     @Override
     protected void initNumberOfColsAndRows() {
         numberOfCols = 7;
         numberOfRows = 24;
-    }
-
-    @Override
-    protected void initFirstVisibleDateTime() {
-        firstVisibleDateTime = CalendarUtil.getFirstDayOfWeek(date);
     }
 
     @Override
@@ -73,7 +64,7 @@ public class WeekView extends PeriodView {
         }
 
         private void drawDayOfMonth(Canvas canvas, int dayOfWeek, float x) {
-            calendar.setTime(firstVisibleDateTime);
+            calendar.setTime(params.getFirstVisibleDateTime());
             calendar.add(Calendar.DAY_OF_MONTH, dayOfWeek);
             canvas.drawText(
                     String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)),

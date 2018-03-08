@@ -2,7 +2,6 @@ package com.example.pamparampa.todocalendar.calendarView;
 
 import android.graphics.Paint;
 
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -15,8 +14,7 @@ class CalendarParameters {
     private final Paint linePaint = new Paint();
     private int numberOfRows;
     private CalendarSizesManager sizesManager;
-    private Calendar calendar;
-    private Date firstVisibleDate;
+    private Date firstVisibleDateTime;
     private final Paint labelTextPaint = new Paint();
     private int rowViewResource;
 
@@ -36,12 +34,8 @@ class CalendarParameters {
         return sizesManager.getBoardLeftPad();
     }
 
-    public Calendar getCalendar() {
-        return calendar;
-    }
-
-    public Date getFirstVisibleDate() {
-        return firstVisibleDate;
+    public Date getFirstVisibleDateTime() {
+        return firstVisibleDateTime;
     }
 
 
@@ -62,12 +56,8 @@ class CalendarParameters {
         labelLinePaint.setStrokeWidth(sizesManager.getBoldLineWidth());
     }
 
-    public void setCalendar(Calendar calendar) {
-        this.calendar = calendar;
-    }
-
-    public void setFirstVisibleDate(Date firstVisibleDate) {
-        this.firstVisibleDate = firstVisibleDate;
+    public void setFirstVisibleDateTime(Date firstVisibleDateTime) {
+        this.firstVisibleDateTime = firstVisibleDateTime;
     }
 
     public Paint getLinePaint() {

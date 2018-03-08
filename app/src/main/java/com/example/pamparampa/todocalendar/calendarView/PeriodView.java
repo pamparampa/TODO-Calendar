@@ -2,8 +2,6 @@ package com.example.pamparampa.todocalendar.calendarView;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -19,30 +17,29 @@ import java.util.Date;
 public abstract class PeriodView extends LinearLayout{
 
     //TODO byc moze zabronic tworzenia tej klasy bez CalendarView
+    protected final Context context;
+
     protected Date date;
-    protected Date firstVisibleDateTime;
     protected Calendar calendar;
 
     protected int numberOfCols;
     protected int numberOfRows;
 
     protected TopLabel topLabel;
-    protected BoardListView boarListView;
+    private BoardListView boarListView;
 
-    protected int rectTimeUnit;
     protected CalendarSizesManager sizesManager;
 
-    protected Context context;  // TODO pozbyc sie tej zmiennej // czy aby na pewno?
-    protected CalendarParameters params;
+    protected final CalendarParameters params = new CalendarParameters();
 
     protected int rowViewResource;
 
-    public PeriodView(Context context, AttributeSet attrs, Boolean test) {
-        super(context, attrs);
+    public PeriodView(Context context, Boolean test) {
+        super(context, null);
 
         this.context = context;
         calendar = Calendar.getInstance();
-        date = new Date();
+        setDate(new Date());
         initFields();
         if (!test) {
             setOrientation(VERTICAL);
@@ -53,7 +50,6 @@ public abstract class PeriodView extends LinearLayout{
     private void initFields() {
         initRowViewResource();
         initNumberOfColsAndRows();
-        initFirstVisibleDateTime();
         initSizeManager();
         initTopLabel();
     }
@@ -81,9 +77,6 @@ public abstract class PeriodView extends LinearLayout{
     }
 
     private CalendarParameters createParams() {
-        params = new CalendarParameters();
-        params.setCalendar(calendar);
-        params.setFirstVisibleDate(firstVisibleDateTime);
         params.setNumberOfRows(numberOfRows);
         params.setSizesManager(sizesManager);
         params.setRowViewResource(rowViewResource);
@@ -109,11 +102,10 @@ public abstract class PeriodView extends LinearLayout{
 
     public void setDate(Date date) {
         this.date = date;
-        firstVisibleDateTime = CalendarUtil.getFirstDayOfWeek(date);
+        params.setFirstVisibleDateTime(CalendarUtil.getFirstDayOfWeek(date));
     }
 
     protected abstract void initNumberOfColsAndRows();
-    protected abstract void initFirstVisibleDateTime();
     protected abstract void initSizeManager();
     protected abstract void initTopLabel();
 

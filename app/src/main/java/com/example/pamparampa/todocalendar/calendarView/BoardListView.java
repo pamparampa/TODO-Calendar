@@ -17,7 +17,7 @@ public class BoardListView extends ListView{
     private float initialX;
     private OnFlipListener onFlipListener;
 
-    public BoardListView(Context context, CalendarParameters params) {
+    public BoardListView(Context context, CalendarParams params) {
         super(context);
 
         LinearLayout linearLayout = new LinearLayout(context);

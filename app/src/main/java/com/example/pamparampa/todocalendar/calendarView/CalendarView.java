@@ -121,7 +121,7 @@ public class CalendarView extends ViewFlipper implements OnFlipListener {
     }
 
     private PeriodView createPeriodView(int dateStep) {
-        PeriodView periodView = new WeekView(context, null, test);   // TODO obsluzyc inne widoki
+        PeriodView periodView = new WeekView(context, test);   // TODO obsluzyc inne widoki
         if (dateStep != 0) {
             calendar.setTime(date);
             calendar.add(Calendar.WEEK_OF_YEAR, dateStep);

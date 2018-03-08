@@ -8,17 +8,11 @@ abstract class CalendarSizesManager {
 
     int width;
     int height;
-    int numberOfRows;
-    int numberOfCols;
     int rowHeight;
+    CalendarParams params;
 
-    CalendarSizesManager(int numberOfCols, int numberOfRows) {
-        this.numberOfCols = numberOfCols;
-        this.numberOfRows = numberOfRows;
-    }
-
-    CalendarSizesManager(int numberOfCols) {
-        this.numberOfCols = numberOfCols;
+    CalendarSizesManager(CalendarParams params) {
+        this.params = params;
     }
 
     void setWidth(int width) {

@@ -18,11 +18,11 @@ public abstract class CalendarRowView extends View {
 
     protected int rowUnit;
     private final CalendarRect[] rects;
-    private final int numberOfCols = 7;
+    private final int numberOfCols = 7; // TODO byc moze lepiej to pobierac z params
     private final Calendar calendar;
     private int rowId;
     private Date date;
-    private CalendarParameters params;
+    private CalendarParams params;
     private CalendarSizesManager sizesManager;
     private Paint labelTextPaint;
 
@@ -46,7 +46,7 @@ public abstract class CalendarRowView extends View {
         invalidate();
     }
 
-    public void setParams(CalendarParameters params) {
+    public void setParams(CalendarParams params) {
         this.params = params;
         sizesManager = params.getSizesManager();
         labelTextPaint = params.getLabelTextPaint();

@@ -6,12 +6,8 @@ package com.example.pamparampa.todocalendar.calendarView;
 
 class CalendarWeekSizesManager extends CalendarSizesManager {
 
-    CalendarWeekSizesManager(int numberOfCols, int numberOfRows) {
-        super(numberOfCols, numberOfRows);
-    }
-
-    CalendarWeekSizesManager(int numberOfCols) {
-        super(numberOfCols);
+    CalendarWeekSizesManager(CalendarParams params) {
+        super(params);
     }
 
     @Override
@@ -37,17 +33,17 @@ class CalendarWeekSizesManager extends CalendarSizesManager {
 
     @Override
     int getBoardLeftPad() {
-        return width / (numberOfCols + 1);
+        return width / (params.getNumberOfCols() + 1);
     }
 
     @Override
     int getRectWidth() {
-        return width / (numberOfCols + 1);
+        return width / (params.getNumberOfCols() + 1);
     }
 
     @Override
     int getRectHeight() {
         if (rowHeight != 0) return super.getRectHeight();
-        else return width / (numberOfCols + 1);
+        else return width / (params.getNumberOfCols() + 1);
     }
 }

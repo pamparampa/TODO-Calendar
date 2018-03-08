@@ -16,9 +16,9 @@ import com.example.pamparampa.todocalendar.R;
 
 class CalendarRowAdapter extends BaseAdapter {
     private final Context context;
-    private final CalendarParameters params;
+    private final CalendarParams params;
 
-    CalendarRowAdapter(Context context, CalendarParameters params) {
+    CalendarRowAdapter(Context context, CalendarParams params) {
         this.context = context;
         this.params = params;
     }

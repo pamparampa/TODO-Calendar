@@ -19,20 +19,15 @@ public abstract class PeriodView extends LinearLayout{
     //TODO byc moze zabronic tworzenia tej klasy bez CalendarView
     protected final Context context;
 
-    protected Date date;
+    protected Date date;    // TODO zastanawiam sie czy nie wyrzucic
     protected Calendar calendar;
-
-    protected int numberOfCols;
-    protected int numberOfRows;
 
     protected TopLabel topLabel;
     private BoardListView boarListView;
 
     protected CalendarSizesManager sizesManager;
 
-    protected final CalendarParameters params = new CalendarParameters();
-
-    protected int rowViewResource;
+    protected final CalendarParams params = new CalendarParams();
 
     public PeriodView(Context context, Boolean test) {
         super(context, null);
@@ -48,9 +43,9 @@ public abstract class PeriodView extends LinearLayout{
     }
 
     private void initFields() {
+        initSizeManager();
         initRowViewResource();
         initNumberOfColsAndRows();
-        initSizeManager();
         initTopLabel();
     }
 
@@ -58,7 +53,7 @@ public abstract class PeriodView extends LinearLayout{
 
     private void composeView() {
 
-        boarListView = new BoardListView(context, createParams());
+        boarListView = new BoardListView(context, params);
 
         topLabel.setLayoutParams(new LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -74,14 +69,6 @@ public abstract class PeriodView extends LinearLayout{
 
         addView(topLabel);
         addView(boarListView);
-    }
-
-    private CalendarParameters createParams() {
-        params.setNumberOfRows(numberOfRows);
-        params.setSizesManager(sizesManager);
-        params.setRowViewResource(rowViewResource);
-
-        return params;
     }
 
     public Date getDate() {
@@ -136,7 +123,7 @@ public abstract class PeriodView extends LinearLayout{
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
 
-            for (int i = 0; i < numberOfCols; i++) {
+            for (int i = 0; i < params.getNumberOfCols(); i++) {
                 drawTopLabelElement(canvas, i);
             }
 

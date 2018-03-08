@@ -8,22 +8,31 @@ import java.util.Date;
  * Created by Pamparampa on 2018-02-01.
  */
 
-class CalendarParameters {
+class CalendarParams {
 
     private final Paint labelLinePaint = new Paint();
     private final Paint linePaint = new Paint();
     private int numberOfRows;
+    private int numberOfCols;
     private CalendarSizesManager sizesManager;
     private Date firstVisibleDateTime;
     private final Paint labelTextPaint = new Paint();
     private int rowViewResource;
 
-    public CalendarParameters() {
+    public CalendarParams() {
         labelTextPaint.setAntiAlias(true);
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setAntiAlias(true);
         labelLinePaint.setStyle(Paint.Style.STROKE);
         labelLinePaint.setAntiAlias(true);
+    }
+
+    public int getNumberOfCols() {
+        return numberOfCols;
+    }
+
+    public void setNumberOfCols(int numberOfCols) {
+        this.numberOfCols = numberOfCols;
     }
 
     public int getNumberOfRows() {

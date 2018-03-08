@@ -14,24 +14,25 @@ import java.util.Calendar;
 
 public class WeekView extends PeriodView {
 
-    public WeekView(Context context, AttributeSet attrs, Boolean test) {
+    public WeekView(Context context, Boolean test) {
         super(context, test);
     }
 
     @Override
     protected void initNumberOfColsAndRows() {
-        numberOfCols = 7;
-        numberOfRows = 24;
+        params.setNumberOfCols(7);
+        params.setNumberOfRows(24);
     }
 
     @Override
     protected void initSizeManager() {
-        sizesManager = new CalendarWeekSizesManager(numberOfCols, numberOfRows);
+        sizesManager = new CalendarWeekSizesManager(params);
+        params.setSizesManager(sizesManager);
     }
 
     @Override
     protected void initRowViewResource() {
-        rowViewResource = R.layout.calendar_week_row;
+        params.setRowViewResource(R.layout.calendar_week_row);
     }
 
     @Override

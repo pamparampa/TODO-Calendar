@@ -1,9 +1,7 @@
 package com.example.pamparampa.todocalendar.calendarView;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -17,9 +15,9 @@ class CalendarRect {
     private float x;
     private float width;
     private float height;
-    private CalendarParameters params;
+    private CalendarParams params;
 
-    public CalendarRect(Date dateTime, int col, int row, int width, int height, CalendarParameters params) {
+    public CalendarRect(Date dateTime, int col, int row, int width, int height, CalendarParams params) {
         this.col = col;
         this.row = row;
         this.dateTime = dateTime;

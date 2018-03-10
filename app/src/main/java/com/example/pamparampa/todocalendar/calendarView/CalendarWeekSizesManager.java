@@ -11,11 +11,6 @@ class CalendarWeekSizesManager extends CalendarSizesManager {
     }
 
     @Override
-    int getBoardHeight() {
-        return width * 100 / 33;
-    }
-
-    @Override
     float getTopLabelElementX(int dayOfWeek) {
         return (getBoardLeftPad() * 1.25f) + (dayOfWeek * getRectWidth());
 
@@ -41,9 +36,10 @@ class CalendarWeekSizesManager extends CalendarSizesManager {
         return width / (params.getNumberOfCols() + 1);
     }
 
-    @Override
+
     int getRectHeight() {
-        if (rowHeight != 0) return super.getRectHeight();
-        else return width / (params.getNumberOfCols() + 1);
+        if(rowHeight == 0) rowHeight = width / (params.getNumberOfCols() + 1);
+        return rowHeight;
+
     }
 }

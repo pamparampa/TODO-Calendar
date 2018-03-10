@@ -21,8 +21,10 @@ class CalendarParams {
 
     public CalendarParams() {
         labelTextPaint.setAntiAlias(true);
+
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setAntiAlias(true);
+
         labelLinePaint.setStyle(Paint.Style.STROKE);
         labelLinePaint.setAntiAlias(true);
     }
@@ -31,22 +33,13 @@ class CalendarParams {
         return numberOfCols;
     }
 
-    public void setNumberOfCols(int numberOfCols) {
-        this.numberOfCols = numberOfCols;
-    }
-
     public int getNumberOfRows() {
         return numberOfRows;
-    }
-
-    public int getBoardLeftPad() {
-        return sizesManager.getBoardLeftPad();
     }
 
     public Date getFirstVisibleDateTime() {
         return firstVisibleDateTime;
     }
-
 
     public CalendarSizesManager getSizesManager() {
         return sizesManager;
@@ -54,6 +47,22 @@ class CalendarParams {
 
     public Paint getLabelTextPaint() {
         return labelTextPaint;
+    }
+
+    public Paint getLinePaint() {
+        return linePaint;
+    }
+
+    public Paint getLabelLinePaint() {
+        return labelLinePaint;
+    }
+
+    public int getRowViewResource() {
+        return rowViewResource;
+    }
+
+    public void setNumberOfCols(int numberOfCols) {
+        this.numberOfCols = numberOfCols;
     }
 
     public void setNumberOfRows(int numberOfRows) {
@@ -69,20 +78,8 @@ class CalendarParams {
         this.firstVisibleDateTime = firstVisibleDateTime;
     }
 
-    public Paint getLinePaint() {
-        return linePaint;
-    }
-
-    public Paint getLabelLinePaint() {
-        return labelLinePaint;
-    }
-
     public void setTextSize(float textSize) {
         labelTextPaint.setTextSize(textSize);
-    }
-
-    public int getRowViewResource() {
-        return rowViewResource;
     }
 
     public void setRowViewResource(int rowViewResource) {

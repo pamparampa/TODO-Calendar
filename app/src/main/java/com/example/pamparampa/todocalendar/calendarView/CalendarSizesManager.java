@@ -23,10 +23,6 @@ abstract class CalendarSizesManager {
         this.height = height;
     }
 
-    void setRowHeight(int rowHeight) {
-        this.rowHeight = rowHeight;
-    }
-
     int getBoldLineWidth() {
         return 5;
     }
@@ -53,8 +49,6 @@ abstract class CalendarSizesManager {
     abstract float getTopLabelElementX(int dayOfWeek);
 
     abstract float getBoardWeight();
-
-    abstract int getBoardHeight();
 
     abstract int getBoardLeftPad();
 

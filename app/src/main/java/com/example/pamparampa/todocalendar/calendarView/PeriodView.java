@@ -19,7 +19,6 @@ public abstract class PeriodView extends LinearLayout{
     //TODO byc moze zabronic tworzenia tej klasy bez CalendarView
     protected final Context context;
 
-    protected Date date;    // TODO zastanawiam sie czy nie wyrzucic
     protected Calendar calendar;
 
     protected TopLabel topLabel;
@@ -72,7 +71,7 @@ public abstract class PeriodView extends LinearLayout{
     }
 
     public Date getDate() {
-        return date;
+        return params.getFirstVisibleDateTime();
     }
 
     public void setOnFlipListener(OnFlipListener onFlipListener) {
@@ -88,7 +87,6 @@ public abstract class PeriodView extends LinearLayout{
     }
 
     public void setDate(Date date) {
-        this.date = date;
         params.setFirstVisibleDateTime(CalendarUtil.getFirstDayOfWeek(date));
     }
 

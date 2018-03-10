@@ -14,32 +14,16 @@ import java.util.Date;
  */
 
 public class CalendarView extends ViewFlipper implements OnFlipListener {
-    private Calendar calendar;
+    private final Calendar calendar;
     private Date date;
     private PeriodView currentPeriodView;
     private PeriodView prevPeriodView;
     private PeriodView nextPeriodView;
-    private Context context;
-    private Boolean test;
-
-    public Date getDate() {
-        return date;
-    }
-
-    public PeriodView getCurrentPeriodView() {
-        return currentPeriodView;
-    }
+    private final Context context;
+    private final Boolean test;
 
     public CalendarView(Context context, AttributeSet attrs) {
         this(context, attrs, false);
-    }
-
-    public PeriodView getPrevPeriodView() {
-        return prevPeriodView;
-    }
-
-    public PeriodView getNextPeriodView() {
-        return nextPeriodView;
     }
 
     public CalendarView(Context context, AttributeSet attrs, Boolean test) {
@@ -51,6 +35,10 @@ public class CalendarView extends ViewFlipper implements OnFlipListener {
         date = new Date();
         calendar = Calendar.getInstance();
 
+        initPeriodViews();
+    }
+
+    private void initPeriodViews() {
         prevPeriodView = createPeriodView(-1);
         currentPeriodView = createPeriodView(0);
         nextPeriodView = createPeriodView(1);
@@ -64,6 +52,21 @@ public class CalendarView extends ViewFlipper implements OnFlipListener {
         }
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public PeriodView getCurrentPeriodView() {
+        return currentPeriodView;
+    }
+
+    public PeriodView getPrevPeriodView() {
+        return prevPeriodView;
+    }
+
+    public PeriodView getNextPeriodView() {
+        return nextPeriodView;
+    }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -71,7 +74,6 @@ public class CalendarView extends ViewFlipper implements OnFlipListener {
         prevPeriodView.onSizeChanged(w, h, oldw, oldh);
         nextPeriodView.onSizeChanged(w, h, oldw, oldh);
     }
-
 
     @Override
     public boolean onFlipNext() {
